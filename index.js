@@ -19,8 +19,12 @@ const router = jsonServer.router('db.json')
   
 // Para permitir que os dados sejam alterados, altere a linha abaixo
 // colocando o atributo readOnly como false.
-const middlewares = jsonServer.defaults({ noCors: true })
+const middlewares = jsonServer.defaults()
 server.use(middlewares)
+server.use(jsonServer.rewriter({
+  '/api/*': '/$1',
+  '/blog/:resource/:id/show': '/:resource/:id'
+}))
 server.use('/api', router)
 
 let port = process.env.PORT || 3000
